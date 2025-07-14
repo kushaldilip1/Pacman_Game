@@ -1,2 +1,2 @@
 # Pacman_Game
-Attempting at creating a PAcman purely using JavaScript.
+Attempting at creating a PacMan purely using JavaScript.
