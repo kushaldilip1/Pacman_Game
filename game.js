@@ -15,12 +15,12 @@ let wallSpaceWidth = oneBlockSize / 1.7;
 let wallOffSet = (oneBlockSize - wallSpaceWidth) / 2;
 let wallInnerColor = "black";
 
-// Changed direction constants to strings for consistency and clarity
-const DIRECTION_RIGHT = "right";
-const DIRECTION_UP = "up";
-const DIRECTION_LEFT = "left";
-const DIRECTION_DOWN = "down";
-const DIRECTION_NONE = "none"; // For when Pacman is stopped
+
+const DIRECTION_RIGHT = 4;
+const DIRECTION_UP = 3;
+const DIRECTION_LEFT = 2;
+const DIRECTION_DOWN = 1;
+
 
 
 let map = [
@@ -49,37 +49,21 @@ let map = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 ];
 
-
 let gameLoop = () => {
     update();
     draw();
 };
 
 let update = () => {
+    // to do yet
+
     pacman.moveProcess();
+
 };
 
 let draw = () => {
     createRect(0, 0, canvas.width, canvas.height, "black");
     drawWalls();
-    // Draw pellets (map value 2)
-    for (let i = 0; i < map.length; i++) {
-        for (let j = 0; j < map[0].length; j++) {
-            if (map[i][j] == 2) {
-                canvasContext.beginPath();
-                canvasContext.arc(
-                    j * oneBlockSize + oneBlockSize / 2,
-                    i * oneBlockSize + oneBlockSize / 2,
-                    oneBlockSize / 8, // Pellet size
-                    0,
-                    Math.PI * 2
-                );
-                canvasContext.fillStyle = "white";
-                canvasContext.fill();
-                canvasContext.closePath();
-            }
-        }
-    }
     pacman.draw();
 };
 
@@ -138,36 +122,31 @@ let drawWalls = () => {
     }
 };
 
-let pacman; // Declare pacman globally
-
-let createNewPacman =() => {
+let createNewPacman = () => {
     pacman = new Pacman(
         oneBlockSize,
         oneBlockSize,
         oneBlockSize,
         oneBlockSize,
-        oneBlockSize / 8 // Adjusted speed for smoother movement
-    );
+        oneBlockSize / 5
+    )
 };
 
 createNewPacman();
-
 gameLoop();
 
 window.addEventListener("keydown", (event) => {
-    let k = event.key; // Use event.key for 'w', 'a', 's', 'd'
-
-    // Removed setTimeout - it's unnecessary and can cause input lag
-    if (k === 'a') {   // left key
-        pacman.nextDirection = DIRECTION_LEFT;
-    }
-    else if (k === 'w') {  // up key
-        pacman.nextDirection = DIRECTION_UP;
-    }
-    else if (k === 'd') {  // right key
+    let k = event.key;
+    if (k == 'd' || k == 'ArrowRight') {
         pacman.nextDirection = DIRECTION_RIGHT;
     }
-    else if (k === 's') {  // down key
+    else if (k == 'w' || k == 'ArrowUp') {
+        pacman.nextDirection = DIRECTION_UP;
+    }
+    else if (k == 'a' || k == 'ArrowLeft') {
+        pacman.nextDirection = DIRECTION_LEFT;
+    }
+    else if (k == 's' || k == 'ArrowDown') {
         pacman.nextDirection = DIRECTION_DOWN;
     }
 });
