@@ -84,8 +84,6 @@ let gameLoop = () => {
 };
 
 let update = () => {
-    // to do yet
-
     pacman.moveProcess();
     pacman.eat();
     for (let i = 0; i < ghosts.length; i++) {
@@ -119,29 +117,28 @@ let gameOver = () => {
 }
 
 let drawGameOver = () => {
-    canvasContext.font = "50px Emulogic";
+    canvasContext.font = "50px 'Press Start 2P'";
     canvasContext.fillStyle = "red";
     canvasContext.fillText(
-        "Game Over !", 100, 200,
+        "Game Over!", 0, 250,
         oneBlockSize * (map.length + 1) + 10
     );
 };
 
 let drawWin = () => {
-    canvasContext.font = "50px Emulogic";
+    canvasContext.font = "50px 'Press Start 2P'";
     canvasContext.fillStyle = "yellow";
     canvasContext.fillText(
-        "LET'S GO, YOU WON !", 5, 200,
-        oneBlockSize * (map.length + 1) + 10
+        "YOU WON!", 25, 250,
     );
 };
 
 let drawLives = () => {
-    canvasContext.font = "20px Emulogic";
+    canvasContext.font = "25px 'Press Start 2P'";
     canvasContext.fillStyle = "white";
     canvasContext.fillText (
-        "Lives: " + lives,
-        355,
+        "Lives:" + lives,
+        260,
         oneBlockSize * (map.length + 1) + 10
     );
 }
@@ -163,10 +160,10 @@ let drawFoods = () => {
 };
 
 let drawScore = () => {
-    canvasContext.font = "20px Emulogic";
+    canvasContext.font = "25px 'Press Start 2P'";
     canvasContext.fillStyle = "white";
     canvasContext.fillText (
-        "Score: " + score,
+        "Score:" + score,
         5,
         oneBlockSize * (map.length + 1) + 10
     );
