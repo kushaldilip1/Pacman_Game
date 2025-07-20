@@ -221,7 +221,7 @@ class Ghost {
             queue.push({ 
                 x: poped.x, 
                 y: poped.y + 1,
-                moves: tempMoves
+                moves: tempMoves 
             });
         }
         return queue;
