@@ -29,6 +29,8 @@ const DIRECTION_UP = 3;
 const DIRECTION_LEFT = 2;
 const DIRECTION_DOWN = 1;
 
+let gameStarted = false;
+
 
 let ghostLocations = [
     { x: 0, y: 0 },
@@ -81,9 +83,13 @@ let randomTargetsForGhosts = [
 ];
 
 let gameLoop = () => {
-    draw();
-    update();
-
+    if (gameStarted) {
+        draw();
+        update();
+    }
+    else {
+        drawStartScreen();
+    }
 };
 
 let update = () => {
@@ -120,10 +126,10 @@ let gameOver = () => {
 }
 
 let drawGameOver = () => {
-    canvasContext.font = "50px 'Press Start 2P'";
+    canvasContext.font = "40px 'Press Start 2P'";
     canvasContext.fillStyle = "red";
     canvasContext.fillText(
-        "Game Over!", 0, 250,
+        "Game Over", 225, 250,
         oneBlockSize * (map.length + 1) + 10
     );
 };
@@ -132,16 +138,16 @@ let drawWin = () => {
     canvasContext.font = "50px 'Press Start 2P'";
     canvasContext.fillStyle = "yellow";
     canvasContext.fillText(
-        "YOU WON!", 25, 250,
+        "YOU WON!", 223, 250,
     );
 };
 
 let drawLives = () => {
-    canvasContext.font = "25px 'Press Start 2P'";
+    canvasContext.font = "20px 'Press Start 2P'";
     canvasContext.fillStyle = "white";
     canvasContext.fillText(
         "Lives:" + lives,
-        260,
+        340,
         oneBlockSize * (map.length + 1) + 10
     );
 }
@@ -163,11 +169,11 @@ let drawFoods = () => {
 };
 
 let drawScore = () => {
-    canvasContext.font = "25px 'Press Start 2P'";
+    canvasContext.font = "20px 'Press Start 2P'";
     canvasContext.fillStyle = "white";
     canvasContext.fillText(
         "Score:" + score,
-        5,
+        95,
         oneBlockSize * (map.length + 1) + 10
     );
 };
@@ -275,13 +281,127 @@ let createGhosts = () => {
     }
 }
 
+let drawStartScreen = () => {
+    createRect(0, 0, canvas.width, canvas.height, "black");
+    canvasContext.font = "30px 'Press Start 2P'";
+    canvasContext.fillStyle = "yellow";
+    canvasContext.textAlign = "center";
+    canvasContext.fillText (
+        "PACMAN", canvas.width / 2, canvas.height / 2 - 50
+    );
+    canvasContext.font = "20px 'Press Start 2P'";
+    canvasContext.fillStyle = "white";
+    canvasContext.fillText ( 
+        "Arrows to start", canvas.width / 2, canvas.height / 2 + 60
+    );
+};
+
+let startGame = () => {
+    gameStarted = true;
+    score = 0;
+    lives = 3;
+
+    foodCount = 0;
+
+    const originalMap = [
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+    [1, 2, 1, 1, 1, 2, 1, 1, 1, 2, 1, 2, 1, 1, 1, 2, 1, 1, 1, 2, 1],
+    [1, 2, 1, 1, 1, 2, 1, 1, 1, 2, 1, 2, 1, 1, 1, 2, 1, 1, 1, 2, 1],
+    [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+    [1, 2, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 2, 1],
+    [1, 2, 2, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 2, 2, 1],
+    [1, 1, 1, 1, 1, 2, 1, 1, 1, 2, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1],
+    [0, 0, 0, 0, 1, 2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 2, 1, 0, 0, 0, 0],
+    [1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 2, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1],
+    [1, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 1],
+    [1, 1, 1, 1, 1, 2, 1, 2, 1, 2, 2, 2, 1, 2, 1, 2, 1, 1, 1, 1, 1],
+    [0, 0, 0, 0, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 0, 0, 0, 0],
+    [0, 0, 0, 0, 1, 2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 2, 1, 0, 0, 0, 0],
+    [1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1],
+    [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+    [1, 2, 1, 1, 1, 2, 1, 1, 1, 2, 1, 2, 1, 1, 1, 2, 1, 1, 1, 2, 1],
+    [1, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 1],
+    [1, 1, 2, 2, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 2, 2, 1, 1],
+    [1, 2, 2, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 2, 2, 1],
+    [1, 2, 1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 2, 1],
+    [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+];
+
+    //Reset the game to original state
+    map = originalMap.map(row => [...row]);     //  Deep copy of the map that resets the food count
+
+    for (let i = 0; i < map.length; i++) {
+        for (let j = 0; j < map[0].length; j ++) {
+            if (map[i][j] === 2) {
+                foodCount++;
+            }
+        }
+    }
+    createNewPacman();
+    createGhosts();
+    gameLoop(); 
+}
 
 
-createNewPacman();
-createGhosts();
-gameLoop();
 
+
+
+
+
+// Implemented the screen buttons here
+const leftButton = document.getElementById('left-button');
+const rightButton = document.getElementById('right-button');
+const upButton = document.getElementById('up-button');
+const downButton = document.getElementById('down-button');
+
+//  Adding event listeners for the screen buttons
+if (leftButton) {
+    leftButton.addEventListener('click', () => {
+        if (!gameStarted) {
+            startGame();
+            return;
+        }
+        pacman.nextDirection = DIRECTION_LEFT;
+    });
+}
+if (rightButton) {
+    rightButton.addEventListener('click', () => {
+        if (!gameStarted) {
+            startGame();
+            return;
+        }
+        pacman.nextDirection = DIRECTION_RIGHT;
+    });
+}
+if (upButton) {
+    upButton.addEventListener('click', () => {
+        if (!gameStarted) {
+            startGame();
+            return;
+        }
+        pacman.nextDirection = DIRECTION_UP;
+    });
+}
+if (downButton) {
+    downButton.addEventListener('click', () => {
+        if (!gameStarted) {
+            startGame();
+            return;
+        }
+        pacman.nextDirection = DIRECTION_DOWN;
+    });
+}
+
+
+
+// Adding event listeners for keyboard inputs
 window.addEventListener("keydown", (event) => {
+    if (!gameStarted) {
+        startGame();
+        return;
+    }
     let k = event.key;
     if (k == 'd' || k == 'ArrowRight') {
         pacman.nextDirection = DIRECTION_RIGHT;

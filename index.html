@@ -8,6 +8,11 @@
 
 
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&" /> 
+
+    
     <style>
         body {
             margin: 2;
@@ -19,12 +24,58 @@
             display: block;
             margin: 0 auto; /* Center the canvas */
             justify-content: center;
+            width: 100%;
+            max-width: 420px;
+            height: auto;
+            margin-top: 2rem;
         }
+
+        /* Customizing the buttons inputs for mobile or tablet screens*/
+        .game-button {
+            border: 2px solid #0a0a0a;
+            box-shadow: 0 5px 0 #000;
+            position: relative;
+            top: 0;
+            cursor: pointer;
+            padding: 1rem;
+            width: 5rem;
+        }
+        .game-button:active {
+            top: 3px;
+            box-shadow: 0 2px 0 #000;
+        }
+        .directional-pad {
+            display: grid;
+            grid-template-areas:
+                ". up ."
+                "left center right"
+                ". down .";
+            gap: 0.5rem;
+            width: 180px; /* Fixed width for the d-pad */
+            margin: 0 auto;
+            margin-top: 2rem;
+            padding-right: 4.5rem;
+        }
+        .directional-pad .up { grid-area: up; }
+        .directional-pad .down { grid-area: down; }
+        .directional-pad .left { grid-area: left; }
+        .directional-pad .right { grid-area: right; }
     </style>
 </head>
 
 <body style=" background-color: black; overflow-x: hidden; overflow-y: hidden;">
-    <canvas id="canvas" width="500" height="500"></canvas>
+    <canvas id="canvas" width="425" height="500"></canvas>
+
+    <!--  Adding button inputs for mobile or tablet devices  -->
+    <div class="directional-pad">
+        <button class="game-button left" id="left-button"><span class="material-symbols-outlined">arrow_left</span></button>
+        <button class="game-button right" id="right-button"><span class="material-symbols-outlined">arrow_right</span></button>
+        <button class="game-button up" id="up-button"><span class="material-symbols-outlined">arrow_drop_up</span></button>
+        <button class="game-button down" id="down-button"><span class="material-symbols-outlined">arrow_drop_down</span></button>
+    </div>
+    
+
+
     <div style="display: none;">
         <img src="assets/animations.gif" id="animations" alt="">
         <img src="assets/ghost.png" alt="" id="ghosts">
