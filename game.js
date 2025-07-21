@@ -11,7 +11,7 @@ let createRect = (x, y, width, height, color) => {
     canvasContext.fillRect(x, y, width, height);
 };
 
-let fps = 30;
+let fps = 40;
 let oneBlockSize = 20;
 let wallColor = "#342DCA";
 let wallSpaceWidth = oneBlockSize / 1.7;
