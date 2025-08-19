@@ -349,50 +349,53 @@ let startGame = () => {
 
 
 
+//Implemented Touch / Swipe input
+let touchStartX, touchStartY;
+const touchThreshold = 20;      //Minimum pixel distance for a swipe to register
 
-// Implemented the screen buttons here
-const leftButton = document.getElementById('left-button');
-const rightButton = document.getElementById('right-button');
-const upButton = document.getElementById('up-button');
-const downButton = document.getElementById('down-button');
+canvas.addEventListener("touchstart", (event) => {
+    event.preventDefault();
+    const touch = event.touches[0];
+    touchStartX = touch.clientX;
+    touchStartY = touch.clientY;
+});
 
-//  Adding event listeners for the screen buttons
-if (leftButton) {
-    leftButton.addEventListener('click', () => {
-        if (!gameStarted) {
-            startGame();
-            return;
+canvas.addEventListener("touchend", (event) => {
+    if (!gameStarted) {
+        startGame();
+        return;
+    }
+    if (!pacman) return;
+    const touch = event.changedTouches[0];
+    const touchEndX = touch.clientX;
+    const touchEndY = touch.clientY;
+
+    const dx = touchEndX - touchStartX;
+    const dy = touchEndY - touchStartY;
+
+    //Determine the direction of the swipe
+    if (Math.abs(dx) > Math.abs(dy)) {
+        //Horizontal swipe
+        if (dx > touchThreshold) {
+            pacman.nextDirection = DIRECTION_RIGHT;
         }
-        pacman.nextDirection = DIRECTION_LEFT;
-    });
-}
-if (rightButton) {
-    rightButton.addEventListener('click', () => {
-        if (!gameStarted) {
-            startGame();
-            return;
+        else if (dx < -touchThreshold) {
+            pacman.nextDirection = DIRECTION_LEFT;
         }
-        pacman.nextDirection = DIRECTION_RIGHT;
-    });
-}
-if (upButton) {
-    upButton.addEventListener('click', () => {
-        if (!gameStarted) {
-            startGame();
-            return;
+    }
+    else {
+        //Vertical swipe
+        if (dy > touchThreshold) {
+            pacman.nextDirection = DIRECTION_DOWN;
         }
-        pacman.nextDirection = DIRECTION_UP;
-    });
-}
-if (downButton) {
-    downButton.addEventListener('click', () => {
-        if (!gameStarted) {
-            startGame();
-            return;
+        else if (dy < - touchThreshold) {
+            pacman.nextDirection = DIRECTION_UP;
         }
-        pacman.nextDirection = DIRECTION_DOWN;
-    });
-}
+    }
+});
+
+
+
 
 
 
